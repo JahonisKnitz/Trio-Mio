@@ -970,7 +970,7 @@ const AUFTRAEGE_DB=[
   {id:'Z11',desc:'3 gerade Zahlen',check:h=>h.filter(c=>c.num%2===0).length>=3},
   {id:'Z12',desc:'Zahlen 7, 8, 9',check:h=>[7,8,9].every(n=>h.some(c=>c.num===n))},
   {id:'Z13',desc:'Zahlen 4, 5, 6',check:h=>[4,5,6].every(n=>h.some(c=>c.num===n))},
-  {id:'Z14',desc:'K1 Blau < K2 Rot < K3 Gelb (Zahl aufsteigend)',check:h=>{const b=h.find(c=>c.color==='blue'),r=h.find(c=>c.color==='red'),y=h.find(c=>c.color==='yellow');return !!(b&&r&&y&&b.num<r.num&&r.num<y.num);}},
+  {id:'Z14',desc:'K1 Blau < K2 Rot < K3 Gelb (Zahl aufsteigend)',check:h=>{const bs=h.filter(c=>c.color==='blue'),rs=h.filter(c=>c.color==='red'),ys=h.filter(c=>c.color==='yellow');return bs.some(b=>rs.some(r=>ys.some(y=>b.num<r.num&&r.num<y.num)));}},
   {id:'Z15',desc:'3 ungerade Zahlen',check:h=>h.filter(c=>c.num%2!==0).length>=3},
   {id:'Z16',desc:'3x Rot ungerade',check:h=>h.filter(c=>c.color==='red'&&c.num%2!==0).length>=3},
   {id:'Z17',desc:'3x Gelb: 1-5',check:h=>h.filter(c=>c.color==='yellow'&&c.num<=5).length>=3},
@@ -1598,7 +1598,7 @@ function execOp(op) {
       const pool = opContext.drawn || [];
       const available = [...new Set(pool.map(c=>c.color))];
       showColorPopup(
-        `Welche Farbe behältst du?`,
+        playerName(currentPlayer) + ': Welche Farbe behältst du?',
         `Rest → ${destLabel(op.dest)}`,
         available,
         (color) => {
@@ -1679,7 +1679,7 @@ function execOp(op) {
 
     case 'take_auslage_color': {
       const colors = [...new Set(auslageCards.map(c=>c.color))];
-      showColorPopup('Welche Farbe aus der Auslage?', '', colors, (color) => {
+      showColorPopup(playerName(currentPlayer) + ': Welche Farbe nimmst du?', 'Alle Karten dieser Farbe aus der Auslage', colors, (color) => {
         const taken = auslageCards.filter(c=>c.color===color);
         auslageCards = auslageCards.filter(c=>c.color!==color);
         taken.forEach(c=>{c._new=true; hands[currentPlayer].push(c);});
@@ -1696,7 +1696,7 @@ function execOp(op) {
       const exclude = opContext.lastColor;
       const available = [...new Set(myHand.map(c=>c.color).filter(c=>c!==exclude))];
       if(available.length === 0) { execNext(); return; }
-      showColorPopup(`Welche Farbe aus deiner Hand → ${destLabel(op.dest)}?`, '', available, (color) => {
+      showColorPopup(playerName(currentPlayer) + ': Welche Farbe gibst du ab?', `Alle Karten dieser Farbe → ${destLabel(op.dest)}`, available, (color) => {
         const give = myHand.filter(c=>c.color===color);
         hands[currentPlayer] = myHand.filter(c=>c.color!==color);
         sendTo(give, op.dest);
@@ -1753,6 +1753,16 @@ function doPlayerSwitch() {
   hintAction();
   const hb=document.getElementById('hint-bar');hb.classList.remove('hint-flash');void hb.offsetWidth;hb.classList.add('hint-flash');
   renderAktionen();
+
+  // Prüfe ob neue Aufträge durch Auslage-Änderungen des Gegners bereits erfüllt sind
+  setTimeout(() => {
+    const fulfilled = checkAuftraege();
+    if(fulfilled.length > 0) {
+      showAuftragFulfilledPopup(fulfilled, 0, () => {
+        applyFulfilledAuftraege(fulfilled);
+      });
+    }
+  }, 600);
 }
 
 function endTurn() {
@@ -1934,12 +1944,13 @@ let _colorCB = null, _colorAvailable = [];
 
 function showColorPopup(title, sub, available, cb) {
   _colorCB = cb; _colorAvailable = available;
-  document.getElementById('popup-color-title').textContent = title;
-  document.getElementById('popup-color-sub').textContent = sub;
-  ['red','yellow','blue'].forEach(col => {
-    const id = {red:'drawn-btn-red',yellow:'drawn-btn-yellow',blue:'drawn-btn-blue'}[col];
-    const btn = document.getElementById(id) || document.querySelector('.color-pick-btn[onclick*="'+col+'"]');
-    if(btn) btn.style.display = available.includes(col) ? 'block' : 'none';
+  document.getElementById('popup-color-title').innerHTML = title;
+  document.getElementById('popup-color-sub').innerHTML = sub;
+  const sheet = document.getElementById('popup-color').querySelector('.color-btns');
+  sheet.querySelectorAll('.color-pick-btn').forEach(btn => {
+    const col = btn.classList.contains('red-btn') ? 'red'
+              : btn.classList.contains('yellow-btn') ? 'yellow' : 'blue';
+    btn.style.display = available.includes(col) ? 'block' : 'none';
   });
   sndPopupOpen();
   document.getElementById('popup-color').style.display = 'flex';
@@ -2114,11 +2125,12 @@ function showAuftragFulfilledPopup(fulfilled, idx, cb) {
 }
 
 function confirmAuftragPopup() {
+  stopConfetti('auftrag-confetti');
   document.getElementById('popup-auftrag').style.display = 'none';
   const next = _auftragIdx + 1;
   if(next < _allFulfilled.length) {
-    // More aufträge to show
-    showAuftragFulfilledPopup(_allFulfilled, next, _auftragCB);
+    // Kurze Pause damit der Canvas leer ist bevor der nächste Popup startet
+    setTimeout(() => showAuftragFulfilledPopup(_allFulfilled, next, _auftragCB), 200);
   } else {
     if(_auftragCB) { const cb = _auftragCB; _auftragCB = null; cb(); }
   }
@@ -2318,7 +2330,7 @@ function showRotationFanfare(cb) {
 
 function showDrawnCardsPopup(drawn, cb) {
   _drawnCB = cb;
-  document.getElementById('popup-drawn-sub').textContent = 'Sieh dir die Karten an, dann wähle eine Farbe';
+  document.getElementById('popup-drawn-sub').innerHTML = playerName(currentPlayer) + ': Sieh dir die Karten an, dann wähle eine Farbe';
   const cardsEl = document.getElementById('popup-drawn-cards');
   cardsEl.innerHTML = '';
   drawn.forEach(card => cardsEl.appendChild(makeNCard(card)));
@@ -2344,7 +2356,18 @@ function showSelectFromAuslage(n, title, cb) {
 
 
 // ── CONFETTI ENGINE ──
+const _confettiFrames = {};
+function stopConfetti(canvasId) {
+  if(_confettiFrames[canvasId]) {
+    cancelAnimationFrame(_confettiFrames[canvasId]);
+    delete _confettiFrames[canvasId];
+  }
+  const canvas = document.getElementById(canvasId);
+  if(canvas) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+}
+
 function launchConfetti(canvasId, duration) {
+  stopConfetti(canvasId); // stoppe vorherigen Lauf zuerst
   const canvas = document.getElementById(canvasId);
   if(!canvas) return;
   canvas.width = window.innerWidth;
@@ -2366,7 +2389,7 @@ function launchConfetti(canvasId, duration) {
   }));
   const start = Date.now();
   function draw() {
-    if(Date.now() - start > duration) { ctx.clearRect(0,0,canvas.width,canvas.height); return; }
+    if(Date.now() - start > duration) { ctx.clearRect(0,0,canvas.width,canvas.height); delete _confettiFrames[canvasId]; return; }
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p => {
       ctx.save();
@@ -2380,9 +2403,9 @@ function launchConfetti(canvasId, duration) {
       p.vy += 0.08; // gravity
       if(p.y > canvas.height + 20) { p.y = -20; p.x = Math.random() * canvas.width; }
     });
-    requestAnimationFrame(draw);
+    _confettiFrames[canvasId] = requestAnimationFrame(draw);
   }
-  draw();
+  _confettiFrames[canvasId] = requestAnimationFrame(draw);
 }
 
 // ── GAME OVER ──
