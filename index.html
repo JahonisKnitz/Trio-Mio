@@ -537,7 +537,7 @@ header{
 
 /* Info-Overlay */
 #info-overlay{
-  position:fixed;inset:0;z-index:9000;
+  position:absolute;inset:0;z-index:9000;
   background:#3d9e96;
   display:none;
   align-items:center;justify-content:center;
@@ -650,21 +650,58 @@ header{
   </div>
 
   <!-- ══════════════════════════════════════════════════════════
+       INTRO SPLASH
+  ══════════════════════════════════════════════════════════ -->
+  <div id="intro-splash" style="
+    position:absolute;inset:0;z-index:10000;
+    background:#73dbc7 url('splash.png') center top / 100% auto no-repeat;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:flex-end;
+    font-family:'Lora',serif;
+    padding-bottom:60px;
+  ">
+    <!-- dunkles Gradient unten für Button-Lesbarkeit -->
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%);pointer-events:none;"></div>
+
+    <button onclick="
+      const s=document.getElementById('intro-splash');
+      s.style.transition='opacity 0.5s';
+      s.style.opacity='0';
+      setTimeout(()=>s.style.display='none',520);
+    " style="
+      position:relative;z-index:1;
+      background:#f5a623;
+      color:#111;
+      border:2.5px solid #111;
+      border-radius:14px 10px 16px 12px / 12px 16px 10px 14px;
+      box-shadow:4px 5px 0 #111;
+      font-family:'Lora',serif;
+      font-size:1.2rem;
+      font-weight:800;
+      padding:16px 48px;
+      cursor:pointer;
+      letter-spacing:0.01em;
+      transition:transform 0.1s,box-shadow 0.1s;
+    "
+    onmousedown="this.style.transform='translate(2px,2px)';this.style.boxShadow='2px 3px 0 #111'"
+    onmouseup="this.style.transform='';this.style.boxShadow='4px 5px 0 #111'"
+    ontouchstart="this.style.transform='translate(2px,2px)';this.style.boxShadow='2px 3px 0 #111'"
+    ontouchend="this.style.transform='';this.style.boxShadow='4px 5px 0 #111'"
+    >▶ Spielen</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
        SPIELANLEITUNG — 3 Seiten
   ══════════════════════════════════════════════════════════ -->
   <div id="anleitung-overlay" style="
-    position:fixed;inset:0;z-index:9999;
-    background:#f5f5f3;
+    position:absolute;inset:0;z-index:9999;
+    background:white url('splash.png') center center / cover no-repeat;
     display:flex;flex-direction:column;
     font-family:'Lora',serif;
     overflow:hidden;
   ">
-    <!-- Hintergrund-Deko -->
-    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
-      <div style="position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(109,178,184,0.18);border:3px solid rgba(109,178,184,0.3);"></div>
-      <div style="position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;border-radius:50%;background:rgba(245,166,35,0.12);border:3px solid rgba(245,166,35,0.25);"></div>
-      <div style="position:absolute;top:40%;left:-30px;width:90px;height:90px;border-radius:50%;background:rgba(232,69,60,0.10);border:2px solid rgba(232,69,60,0.2);"></div>
-    </div>
+    <!-- Hintergrund-Overlay für Lesbarkeit -->
+    <div style="position:absolute;inset:0;background:rgba(255,255,255,0.92);pointer-events:none;"></div>
 
     <!-- Seiten-Container -->
     <div id="anl-pages" style="flex:1;overflow:hidden;position:relative;">
