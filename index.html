@@ -5,12 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="TrioMio">
-<link rel="apple-touch-icon" href="icon.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icon.png">
-<link rel="apple-touch-icon" sizes="167x167" href="icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
-<link rel="icon" type="image/png" href="icon.png">
 <title>TrioMio</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600;700&family=Caveat:wght@600;700&family=Lora:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -561,6 +555,14 @@ header{
     <!-- dunkles Gradient unten für Button-Lesbarkeit -->
     <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55) 100%);pointer-events:none;"></div>
 
+    
+    <!-- Language Selector -->
+    <div id="lang-selector" style="position:relative;z-index:2;display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap;justify-content:center;">
+      <button id="lang-btn-de" onclick="setLang('de')" style="background:#4ec9c3;color:#111;border:2.5px solid #111;border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;box-shadow:3px 4px 0 #111;font-family:'Lora',serif;font-size:1rem;font-weight:800;padding:10px 20px;cursor:pointer;">🇩🇪 Deutsch</button>
+      <button id="lang-btn-nl" onclick="setLang('nl')" style="background:white;color:#555;border:2.5px solid #111;border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;box-shadow:3px 4px 0 #111;font-family:'Lora',serif;font-size:1rem;font-weight:800;padding:10px 20px;cursor:pointer;">🇳🇱 Nederlands</button>
+      <button id="lang-btn-en" onclick="setLang('en')" style="background:white;color:#555;border:2.5px solid #111;border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;box-shadow:3px 4px 0 #111;font-family:'Lora',serif;font-size:1rem;font-weight:800;padding:10px 20px;cursor:pointer;">🇬🇧 English</button>
+    </div>
+
     <button onclick="
       const s=document.getElementById('intro-splash');
       s.style.transition='opacity 0.5s';
@@ -585,7 +587,7 @@ header{
     onmouseup="this.style.transform='';this.style.boxShadow='4px 5px 0 #111'"
     ontouchstart="this.style.transform='translate(2px,2px)';this.style.boxShadow='2px 3px 0 #111'"
     ontouchend="this.style.transform='';this.style.boxShadow='4px 5px 0 #111'"
-    >▶ Spielen</button>
+     id="splash-play-btn">▶ Spielen</button>
   </div>
 
   <!-- ══════════════════════════════════════════════════════════
@@ -608,8 +610,8 @@ header{
       <div class="anl-page" id="anl-page-1" style="position:absolute;inset:0;overflow-y:auto;padding:28px 22px 20px;display:flex;flex-direction:column;gap:18px;z-index:1;">
 
         <div style="text-align:center;margin-bottom:4px;">
-          <div style="font-size:2.4rem;font-weight:800;color:#111;letter-spacing:-0.02em;line-height:1.1;transform:rotate(-0.8deg);display:inline-block;">Willkommen<br>bei <span style="color:#4ec9c3;">TrioMio</span>!</div>
-          <div style="margin-top:10px;font-size:1.05rem;color:#444;font-weight:500;line-height:1.5;">Wähle eine Aktion, sammle Karten,<br>schnapp dir Pfoten.</div>
+          <div data-anl="title" style="font-size:2.4rem;font-weight:800;color:#111;letter-spacing:-0.02em;line-height:1.1;transform:rotate(-0.8deg);display:inline-block;">Willkommen<br>bei <span style="color:#4ec9c3;">TrioMio</span>!</div>
+          <div data-anl="sub" style="margin-top:10px;font-size:1.05rem;color:#444;font-weight:500;line-height:1.5;">Wähle eine Aktion, sammle Karten,<br>schnapp dir Pfoten.</div>
           <div style="display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap;">
             <div style="background:#4ec9c3;color:#111;border:2px solid #111;border-radius:20px;padding:4px 11px;font-size:0.82rem;font-weight:700;display:inline-flex;align-items:center;gap:4px;">
               <svg width="12" height="12" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="3.5" stroke="#111" stroke-width="2"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>
@@ -647,60 +649,60 @@ header{
 
         <!-- Das Ziel -->
         <div style="background:white;border:2.5px solid #111;border-radius:12px 9px 14px 10px / 10px 14px 9px 12px;box-shadow:3px 4px 0 #111;padding:16px 18px;transform:rotate(0.4deg);">
-          <div style="font-weight:800;font-size:1.1rem;color:#111;margin-bottom:8px;">🎯 Das Ziel</div>
+          <div data-anl="zielTitle" style="font-weight:800;font-size:1.1rem;color:#111;margin-bottom:8px;">🎯 Das Ziel</div>
           <div style="font-size:0.95rem;color:#333;line-height:1.6;">
-            Sammle die richtigen Karten, um die ausliegenden Aufträge zu erfüllen. Aufträge bringen dir die begehrten <strong>Pfoten 🐾</strong>. Wer am Ende die meisten Pfoten hat, gewinnt TrioMio.
+            <span data-anl="zielText">Sammle die richtigen Karten, um die ausliegenden Aufträge zu erfüllen. Aufträge bringen dir die begehrten <strong>Pfoten 🐾</strong>. Wer am Ende die meisten Pfoten hat, gewinnt TrioMio.</span>
           </div>
         </div>
 
         <!-- Auftrag-Beispiel -->
         <div style="background:rgba(109,178,184,0.12);border:2px solid rgba(109,178,184,0.5);border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;padding:14px 16px;">
-          <div style="font-size:0.85rem;font-weight:700;color:#2a8a8f;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px;">Beispiel-Auftrag</div>
+          <div data-anl="beispielLabel" style="font-size:0.85rem;font-weight:700;color:#2a8a8f;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:8px;">Beispiel-Auftrag</div>
           <div style="display:flex;align-items:center;gap:12px;">
             <div style="font-size:1.6rem;">🐾</div>
-            <div style="font-size:0.95rem;color:#111;line-height:1.5;font-weight:600;">"2× Gelb + 1× Rot" — <span style="color:#555;font-weight:400;">Wer zwei gelbe und eine rote Karte in seiner Hand hat, erfüllt diesen Auftrag!</span></div>
+            <div data-anl="beispielText" style="font-size:0.95rem;color:#111;line-height:1.5;font-weight:600;">"2× Gelb + 1× Rot" — <span style="color:#555;font-weight:400;">Wer zwei gelbe und eine rote Karte in seiner Hand hat, erfüllt diesen Auftrag!</span></div>
           </div>
         </div>
 
-        <div style="text-align:center;color:#888;font-size:0.85rem;margin-top:auto;padding-top:8px;">Seite 1 von 2 · Weiter →</div>
+        <div data-anl="seite1of2" style="text-align:center;color:#888;font-size:0.85rem;margin-top:auto;padding-top:8px;">Seite 1 von 2 · Weiter →</div>
       </div>
 
       <!-- ── SEITE 2: Spielablauf ── -->
       <div class="anl-page" id="anl-page-2" style="position:absolute;inset:0;overflow-y:auto;padding:28px 22px 20px;display:flex;flex-direction:column;gap:16px;transform:translateX(100%);z-index:1;">
 
-        <div style="font-size:1.8rem;font-weight:800;color:#111;letter-spacing:-0.02em;transform:rotate(-0.5deg);display:inline-block;">So läuft ein Zug 🃏</div>
+        <div data-anl="anl2Title" style="font-size:1.8rem;font-weight:800;color:#111;letter-spacing:-0.02em;transform:rotate(-0.5deg);display:inline-block;">So läuft ein Zug 🃏</div>
 
         <div style="display:flex;flex-direction:column;gap:10px;">
           <div style="background:white;border:2.5px solid #111;border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;box-shadow:3px 4px 0 #111;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transform:rotate(-0.3deg);">
             <div style="width:36px;height:36px;border-radius:50%;background:#e8453c;border:2px solid #111;display:flex;align-items:center;justify-content:center;font-weight:900;color:white;font-size:1.1rem;flex-shrink:0;">1</div>
             <div>
-              <div style="font-weight:800;font-size:1rem;margin-bottom:3px;">Aktion wählen</div>
-              <div style="font-size:0.9rem;color:#444;line-height:1.5;">Wähle 1 der drei Aktionen um Karten zu sammeln. Die Aktionskarte beschreibt was passiert — Karten ziehen vom Stapel, aus der Auslage nehmen oder tauschen … die Aktionen sind bunt und vielfältig. Wähle clever!</div>
+              <div data-anl="step1Title" style="font-weight:800;font-size:1rem;margin-bottom:3px;">Aktion wählen</div>
+              <div data-anl="step1Text" style="font-size:0.9rem;color:#444;line-height:1.5;">Wähle 1 der drei Aktionen um Karten zu sammeln. Die Aktionskarte beschreibt was passiert — Karten ziehen vom Stapel, aus der Auslage nehmen oder tauschen … die Aktionen sind bunt und vielfältig. Wähle clever!</div>
             </div>
           </div>
           <div style="background:white;border:2.5px solid #111;border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;box-shadow:3px 4px 0 #111;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transform:rotate(0.4deg);">
             <div style="width:36px;height:36px;border-radius:50%;background:#f5a623;border:2px solid #111;display:flex;align-items:center;justify-content:center;font-weight:900;color:white;font-size:1.1rem;flex-shrink:0;">2</div>
             <div>
-              <div style="font-weight:800;font-size:1rem;margin-bottom:3px;">Aufträge erfüllen</div>
-              <div style="font-size:0.9rem;color:#444;line-height:1.5;">Erfüllst du einen Auftrag mit genau 3 Karten? Dann schnapp dir den Auftrag und sichere dir die Pfoten 🐾 darauf. <strong>Achtung:</strong> Je mehr Pfoten auf der Karte, umso schwerer der Auftrag.</div>
+              <div data-anl="step2Title" style="font-weight:800;font-size:1rem;margin-bottom:3px;">Aufträge erfüllen</div>
+              <div data-anl="step2Text" style="font-size:0.9rem;color:#444;line-height:1.5;">Erfüllst du einen Auftrag mit genau 3 Karten? Dann schnapp dir den Auftrag und sichere dir die Pfoten 🐾 darauf. <strong>Achtung:</strong> Je mehr Pfoten auf der Karte, umso schwerer der Auftrag.</div>
             </div>
           </div>
           <div style="background:white;border:2.5px solid #111;border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;box-shadow:3px 4px 0 #111;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transform:rotate(-0.2deg);">
             <div style="width:36px;height:36px;border-radius:50%;background:#3a9de8;border:2px solid #111;display:flex;align-items:center;justify-content:center;font-weight:900;color:white;font-size:1.1rem;flex-shrink:0;">3</div>
             <div>
-              <div style="font-weight:800;font-size:1rem;margin-bottom:3px;">Aufräumen</div>
-              <div style="font-size:0.9rem;color:#444;line-height:1.5;">Die offene Auslage wird immer auf 3 aufgefüllt. Wurde eine Aktion dreimal genutzt, kommt die Karte weg und eine neue Aktion erscheint.</div>
+              <div data-anl="step3Title" style="font-weight:800;font-size:1rem;margin-bottom:3px;">Aufräumen</div>
+              <div data-anl="step3Text" style="font-size:0.9rem;color:#444;line-height:1.5;">Die offene Auslage wird immer auf 3 aufgefüllt. Wurde eine Aktion dreimal genutzt, kommt die Karte weg und eine neue Aktion erscheint.</div>
             </div>
           </div>
         </div>
 
         <!-- Spielende -->
         <div style="background:rgba(232,69,60,0.08);border:2px solid rgba(232,69,60,0.35);border-radius:10px 8px 12px 9px / 9px 12px 8px 10px;padding:14px 16px;">
-          <div style="font-size:0.85rem;font-weight:700;color:#a02020;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">⏳ Spielende</div>
-          <div style="font-size:0.9rem;color:#333;line-height:1.5;">Sobald <strong>8 Aktionskarten</strong> verbraucht sind, endet das Spiel. Wer die meisten Pfoten gesammelt hat, gewinnt!</div>
+          <div data-anl="spielendeLabel" style="font-size:0.85rem;font-weight:700;color:#a02020;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;">⏳ Spielende</div>
+          <div data-anl="spielendeText" style="font-size:0.9rem;color:#333;line-height:1.5;">Sobald <strong>6 Aktionskarten</strong> verbraucht sind, endet das Spiel. Wer die meisten Pfoten gesammelt hat, gewinnt!</div>
         </div>
 
-        <div style="text-align:center;color:#888;font-size:0.85rem;margin-top:auto;padding-top:8px;">Seite 2 von 2</div>
+        <div data-anl="seite2of2" style="text-align:center;color:#888;font-size:0.85rem;margin-top:auto;padding-top:8px;">Seite 2 von 2</div>
       </div>
 
     </div><!-- /anl-pages -->
@@ -762,7 +764,7 @@ header{
             text-orientation:mixed;
             white-space:nowrap;
             line-height:1;
-          ">Aktionen</div>
+          " id="aktionen-title">Aktionen</div>
           <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2 6 C7 4, 11 8, 18 6" stroke="rgba(26,35,126,0.75)" stroke-width="1.5" stroke-linecap="round"/>
             <path d="M14 3 C16 4.5, 18 6, 18 6 C18 6, 16 7.5, 14 9" stroke="rgba(26,35,126,0.75)" stroke-width="1.5" stroke-linecap="round"/>
@@ -774,7 +776,7 @@ header{
             <path d="M7 26 C9 18, 5 12, 7 4" stroke="rgba(26,35,126,0.75)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
             <path d="M3 8 C5 6, 7 4, 7 4 C7 4, 9 6, 11 8" stroke="rgba(26,35,126,0.75)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
           </svg>
-          <div class="rc-label">Spielende</div>
+          <div class="rc-label" id="spielende-label">Spielende</div>
         </div>
       </div>
     </div>
@@ -785,7 +787,7 @@ header{
   <path d="M8 2 C7 7, 9 13, 8 22" stroke="rgba(26,35,126,0.75)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
   <path d="M4 17 C5.5 19.5, 8 22, 8 22 C8 22, 10.5 19.5, 12 17" stroke="rgba(26,35,126,0.75)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
 </svg></span>
-        <span class="zone-title-text">Stapel</span>
+        <span class="zone-title-text" id="stapel-title">Stapel</span>
       </div>
         <div class="card-stack">
           <div class="card-shadow"></div>
@@ -801,7 +803,7 @@ header{
           <span style="font-size:1.2rem;opacity:0.25;">—</span>
         </div>
         <div class="zone-title" style="transform:rotate(-1.5deg);margin-top:6px;">
-          <span class="zone-title-text">Abwurf</span>
+          <span class="zone-title-text" id="abwurf-title">Abwurf</span>
         </div>
       </div>
       <div id="auslage-zone">
@@ -810,7 +812,7 @@ header{
   <path d="M8 2 C7 7, 9 13, 8 22" stroke="rgba(26,35,126,0.75)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
   <path d="M4 17 C5.5 19.5, 8 22, 8 22 C8 22, 10.5 19.5, 12 17" stroke="rgba(26,35,126,0.75)" stroke-width="1.6" stroke-linecap="round" fill="none"/>
 </svg></span>
-        <span class="zone-title-text">Auslage</span>
+        <span class="zone-title-text" id="auslage-title">Auslage</span>
       </div>
         <div id="auslage-cards"></div>
       </div>
@@ -2304,13 +2306,13 @@ function showAuftragFulfilledPopup(fulfilled, idx, cb) {
   for(let i=0;i<f.pts;i++) {
     const p = document.createElement('span');
     p.className = 'paw active';
-    const t = (Math.random()*30-15).toFixed(1);
-    p.style.transform = 'rotate('+t+'deg)';
+    const rot3 = (Math.random()*30-15).toFixed(1);
+    p.style.transform = 'rotate('+rot3+'deg)';
     p.innerHTML = PAW;
     pawsEl.appendChild(p);
   }
   document.getElementById('auftrag-popup-pts').textContent =
-    '= ' + f.pts + (f.pts === 1 ? ' Punkt' : ' Punkte');
+    '= ' + f.pts + ' ' + t('punkte');
 
   sndPopupOpen();
   document.getElementById('popup-auftrag').style.display = 'flex';
@@ -2644,11 +2646,11 @@ function showGameOver() {
 
   document.getElementById('gameover-trophy').textContent = tie ? '🤝' : '🏆';
   document.getElementById('gameover-winner').innerHTML =
-    tie ? 'Unentschieden!' :
-    (p1wins ? `<span style="color:#f5a623;font-weight:900;">Spieler 1</span> gewinnt! 🏆` : `<span style="color:#3a9de8;font-weight:900;">Spieler 2</span> gewinnt! 🏆`);
+    tie ? t('unentschieden') :
+    (p1wins ? `<span style="color:#f5a623;font-weight:900;">${t('spieler')[0]}</span> ${t('gewinnt')}` : `<span style="color:#3a9de8;font-weight:900;">${t('spieler')[1]}</span> ${t('gewinnt')}`);
   document.getElementById('gameover-sub').textContent =
-    tie ? 'Beide haben gleich viele Punkte!' :
-    `${p1wins ? 'Spieler 2' : 'Spieler 1'} hat tapfer gekämpft.`;
+    tie ? t('gleichPunkte') :
+    t('tapferGekämpft').replace('%s', p1wins ? t('spieler')[1] : t('spieler')[0]);
 
   const PAW = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><ellipse cx="12" cy="17" rx="5" ry="4"/><ellipse cx="7" cy="11.5" rx="2.5" ry="3"/><ellipse cx="17" cy="11.5" rx="2.5" ry="3"/><ellipse cx="9.5" cy="7" rx="2" ry="2.5"/><ellipse cx="14.5" cy="7" rx="2" ry="2.5"/></svg>`;
 
@@ -2658,16 +2660,16 @@ function showGameOver() {
     const isWinner = !tie && ((who==='p1' && p1wins) || (who==='p2' && !p1wins));
     const card = document.createElement('div');
     card.className = 'gameover-score-card' + (isWinner ? ' winner' : '');
-    const color = who==='p1' ? '#f5a623' : '#3a9de8';
+    const color = who==='p1' ? '#f5a623' : '#3a9de8'; const pIdx = parseInt(who.replace('p',''))-1;
     const pawsHtml = Array.from({length:scores[who]}, (_,i) => {
-      const t = (Math.random()*20-10).toFixed(1);
-      return `<span class="paw active" style="transform:rotate(${t}deg)">${PAW}</span>`;
+      const rot = (Math.random()*20-10).toFixed(1);
+      return `<span class="paw active" style="transform:rotate(${rot}deg)">${PAW}</span>`;
     }).join('');
     card.innerHTML = `
       <div class="gameover-player-dot" style="background:${color}"></div>
-      <div class="gameover-player-name">${who==='p1'?'<span style="color:#f5a623">Spieler 1</span>':'<span style="color:#3a9de8">Spieler 2</span>'}</div>
+      <div class="gameover-player-name">${who==='p1'?'<span style="color:#f5a623">'+t('spieler')[0]+'</span>':'<span style="color:#3a9de8">'+t('spieler')[1]+'</span>'}</div>
       <div class="gameover-score-num">${scores[who]}</div>
-      <div class="gameover-score-label">Punkte</div>
+      <div class="gameover-score-label">${t('punkte')}</div>
       <div class="gameover-score-paws">${pawsHtml}</div>
       ${isWinner ? '<div style="margin-top:8px;font-size:1.2rem;">👑</div>' : ''}`;
     scoresEl.appendChild(card);
@@ -2708,51 +2710,34 @@ applyScale();
 window.addEventListener('resize', applyScale);
 
 
-const HINT_DRAW = [
-  (who) => `🃏 ${playerName(who)}, zieh eine Karte!`,
-  (who) => `🐾 ${playerName(who)}, was kommt wohl?`,
-  (who) => `✨ Dein Glück wartet, ${playerName(who)}!`,
-  (who) => `🎴 ${playerName(who)}, los geht's!`,
-  (who) => `😺 Die Katze sagt: ${playerName(who)}, zieh!`,
-];
-const HINT_ACTION = [
-  (who) => `😼 ${playerName(who)}, welche Aktion?`,
-  (who) => `⚡ ${playerName(who)}, dein Zug!`,
-  (who) => `🐱 ${playerName(who)}: Lang drücken = Info!`,
-  (who) => `🎯 ${playerName(who)}, was ist dein Plan?`,
-  (who) => `✨ ${playerName(who)}, wähle eine Aktion!`,
-];
-const HINT_SWITCH = [
-  ['🟡 Spieler 1 ist dran! 😎', '🔵 Spieler 2 ist dran! 😎'],
-  ['🐾 Los Spieler 1!', '🐾 Los Spieler 2!'],
-  ['🟡 Du bist dran!', '🔵 Du bist dran!'],
-  ['😸 Spieler 1 macht weiter!', '😸 Spieler 2 macht weiter!'],
-];
+function getHINT_DRAW() { return t('hintDraw').map(tmpl => (who) => tmpl.replace('%s', playerName(who))); }
+function getHINT_ACTION() { return t('hintAktion').map(tmpl => (who) => tmpl.replace('%s', playerName(who))); }
+function getHINT_SWITCH() { return t('hintSwitch'); }
 function randomHint(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
-function hintDraw() { hint(randomHint(HINT_DRAW)(currentPlayer)); }
-function hintAction() { hint(randomHint(HINT_ACTION)(currentPlayer)); }
+function hintDraw() { hint(randomHint(getHINT_DRAW())(currentPlayer)); }
+function hintAction() { hint(randomHint(getHINT_ACTION())(currentPlayer)); }
 function hintSwitch(who) {
-  const pair = randomHint(HINT_SWITCH);
+  const pair = randomHint(getHINT_SWITCH());
   hint(who==='p1' ? pair[0] : pair[1]);
 }
 
 
 // ── CAT CHARACTER ──
-const CAT_REACTIONS = {
-  deal:    {emoji:'😸', msgs:['Ooh, eine Karte!','Schau mal!','Was kommt?']},
-  auftrag: {emoji:'🎉', msgs:['Juhu! Auftrag!','Yesss! 🐾','So ein Glück!','Gewonnen!']},
-  discard: {emoji:'😿', msgs:['Ach nein...','So ein Pech!','Das tut weh.']},
-  switch:  {emoji:'😼', msgs:['Nächster dran!','Du bist dran!','Zeig was du kannst!']},
-  gameover:{emoji:'🏆', msgs:['Was ein Spiel!','Chapeau!','Fantastisch!']},
-  idle:    {emoji:'😺', msgs:['...',':3','*schnurr*','*gähn*']},
-};
+function getCatReactions() { return {
+  deal:    t('catDeal'),
+  auftrag: t('catAuftrag'),
+  discard: t('catDiscard'),
+  switch:  t('catSwitch'),
+  gameover:t('catGameover'),
+  idle:    t('catIdle'),
+}; }
 
 let catVisible = false;
 let catTimeout = null;
 
 function showCat(type, delay) {
   clearTimeout(catTimeout);
-  const reaction = CAT_REACTIONS[type] || CAT_REACTIONS.idle;
+  const reactions = getCatReactions(); const reaction = reactions[type] || reactions.idle;
   const cat = document.getElementById('game-cat');
   const emoji = document.getElementById('cat-emoji');
   const bubble = document.getElementById('cat-bubble');
@@ -2810,13 +2795,15 @@ function anlNav(dir) {
   prev.style.opacity = _anlPage === 1 ? '0.3' : '1';
   prev.style.pointerEvents = _anlPage === 1 ? 'none' : 'auto';
   if(_anlPage === 2) {
-    fwd.textContent = 'Los geht\'s! 🎉';
+    fwd.textContent = t('losGehts');
     fwd.style.background = '#4ec9c3';
     fwd.onclick = closeAnleitung;
   } else {
-    fwd.textContent = 'Weiter →';
+    fwd.textContent = t('weiter');
     fwd.onclick = () => anlNav(1);
   }
+  // update back button
+  prev.textContent = t('zurueck');
 }
 function closeAnleitung() {
   const ov = document.getElementById('anleitung-overlay');
@@ -2825,7 +2812,353 @@ function closeAnleitung() {
   setTimeout(() => ov.style.display = 'none', 420);
 }
 
-updateTurnUI('p1'); hintAction();
+
+// ══════════════════════════════════════════════════════════
+// MEHRSPRACHIGKEIT / MULTILINGUAL SYSTEM
+// ══════════════════════════════════════════════════════════
+const LANG = {
+  de: {
+    // Splash
+    splashBtn: '▶ Spielen',
+    // Anleitung Seite 1
+    anlTitle: 'Willkommen<br>bei <span style="color:#4ec9c3;">TrioMio</span>!',
+    anlSub: 'Wähle eine Aktion, sammle Karten,<br>schnapp dir Pfoten.',
+    badge1: '2–4 Spielende',
+    badge2: 'ca. 20 Min',
+    badge3: 'ab 8 Jahren',
+    zielTitle: '🎯 Das Ziel',
+    zielText: 'Sammle die richtigen Karten, um die ausliegenden Aufträge zu erfüllen. Aufträge bringen dir die begehrten <strong>Pfoten 🐾</strong>. Wer am Ende die meisten Pfoten hat, gewinnt TrioMio.',
+    beispielLabel: 'Beispiel-Auftrag',
+    beispielText: '"2× Gelb + 1× Rot" — <span style="color:#555;font-weight:400;">Wer zwei gelbe und eine rote Karte in seiner Hand hat, erfüllt diesen Auftrag!</span>',
+    seite1of2: 'Seite 1 von 2 · Weiter →',
+    // Anleitung Seite 2
+    anl2Title: 'So läuft ein Zug 🃏',
+    step1Title: 'Aktion wählen',
+    step1Text: 'Wähle 1 der drei Aktionen um Karten zu sammeln. Die Aktionskarte beschreibt was passiert — Karten ziehen vom Stapel, aus der Auslage nehmen oder tauschen … die Aktionen sind bunt und vielfältig. Wähle clever!',
+    step2Title: 'Aufträge erfüllen',
+    step2Text: 'Erfüllst du einen Auftrag mit genau 3 Karten? Dann schnapp dir den Auftrag und sichere dir die Pfoten 🐾 darauf. <strong>Achtung:</strong> Je mehr Pfoten auf der Karte, umso schwerer der Auftrag.',
+    step3Title: 'Aufräumen',
+    step3Text: 'Die offene Auslage wird immer auf 3 aufgefüllt. Wurde eine Aktion dreimal genutzt, kommt die Karte weg und eine neue Aktion erscheint.',
+    spielendeLabel: '⏳ Spielende',
+    spielendeText: 'Sobald <strong>6 Aktionskarten</strong> verbraucht sind, endet das Spiel. Wer die meisten Pfoten gesammelt hat, gewinnt!',
+    seite2of2: 'Seite 2 von 2',
+    // Nav buttons
+    zurueck: '← Zurück',
+    weiter: 'Weiter →',
+    losGehts: 'Los geht\'s! 🎉',
+    // Game UI
+    spieler: ['Spieler 1', 'Spieler 2', 'Spieler 3', 'Spieler 4'],
+    stapel: 'Stapel',
+    abwurf: 'Abwurf',
+    auslage: 'Auslage',
+    aktionen: 'Aktionen',
+    spielende: 'Spielende',
+    punkte: 'Punkte',
+    hintAktion: ['😼 %s, welche Aktion?', '⚡ %s, dein Zug!', '🐱 %s: Lang drücken = Info!', '🎯 %s, was ist dein Plan?', '✨ %s, wähle eine Aktion!'],
+    hintDraw: ['🃏 %s, zieh eine Karte!', '🐾 %s, was kommt wohl?', '✨ Dein Glück wartet, %s!', '🎴 %s, los geht\'s!', '😺 Die Katze sagt: %s, zieh!'],
+    hintSwitch: [['🟡 Spieler 1 ist dran! 😎', '🔵 Spieler 2 ist dran! 😎'], ['🐾 Los Spieler 1!', '🐾 Los Spieler 2!'], ['🟡 Du bist dran!', '🔵 Du bist dran!'], ['😸 Spieler 1 macht weiter!', '😸 Spieler 2 macht weiter!']],
+    // Cat
+    catDeal: {emoji:'😸', msgs:['Ooh, eine Karte!','Schau mal!','Was kommt?']},
+    catAuftrag: {emoji:'🎉', msgs:['Juhu! Auftrag!','Yesss! 🐾','So ein Glück!','Gewonnen!']},
+    catDiscard: {emoji:'😿', msgs:['Ach nein...','So ein Pech!','Das tut weh.']},
+    catSwitch: {emoji:'😼', msgs:['Nächster dran!','Du bist dran!','Zeig was du kannst!']},
+    catGameover: {emoji:'🏆', msgs:['Was ein Spiel!','Chapeau!','Fantastisch!']},
+    catIdle: {emoji:'😺', msgs:['...',':3','*schnurr*','*gähn*']},
+    // Game Over
+    unentschieden: 'Unentschieden!',
+    gewinnt: 'gewinnt! 🏆',
+    gleichPunkte: 'Beide haben gleich viele Punkte!',
+    tapferGekämpft: '%s hat tapfer gekämpft.',
+    nochmalSpielen: '🔄 Nochmal spielen',
+    // Popups
+    waehlen: 'Wählen',
+    weiter2: 'Weiter!',
+    verstanden: 'Verstanden — Tippen zum Ausführen',
+    zugBeenden: 'Zug beenden?',
+    zugBeendenBtn: 'Zug beenden →',
+    waehlKartenAbwerfen: 'Wähle Karten zum Abwerfen',
+    auftragErfuellt: 'Auftrag erfüllt!',
+    erfuelltMitDiesenKarten: 'Erfüllt mit diesen Karten',
+    bedingung: 'Bedingung',
+    wasPassiert: 'Was passiert',
+    gezogeneKarten: 'Gezogene Karten',
+    farbeWaehlen: 'Farbe wählen',
+    rot: 'ROT', gelb: 'GELB', blau: 'BLAU',
+    // Credits
+    credits: 'Ein Spielkonzept<br>von Maren<br>und Johannes',
+    // Tooltip
+    hinweise: 'Hinweise',
+  },
+  nl: {
+    splashBtn: '▶ Spelen',
+    anlTitle: 'Welkom bij<br><span style="color:#4ec9c3;">TrioMio</span>!',
+    anlSub: 'Kies een actie, verzamel kaarten,<br>pak de poten.',
+    badge1: '2–4 spelers',
+    badge2: 'ca. 20 min',
+    badge3: 'vanaf 8 jaar',
+    zielTitle: '🎯 Het doel',
+    zielText: 'Verzamel de juiste kaarten om de opdrachten te vervullen. Opdrachten leveren je de begeerde <strong>poten 🐾</strong> op. Wie aan het einde de meeste poten heeft, wint TrioMio.',
+    beispielLabel: 'Voorbeeld-opdracht',
+    beispielText: '"2× Geel + 1× Rood" — <span style="color:#555;font-weight:400;">Wie twee gele en één rode kaart in zijn hand heeft, vervult deze opdracht!</span>',
+    seite1of2: 'Pagina 1 van 2 · Verder →',
+    anl2Title: 'Zo verloopt een beurt 🃏',
+    step1Title: 'Actie kiezen',
+    step1Text: 'Kies 1 van de drie acties om kaarten te verzamelen. De actiekaart beschrijft wat er gebeurt — kaarten trekken van de stapel, uit de uitleg nemen of ruilen … de acties zijn gevarieerd. Kies slim!',
+    step2Title: 'Opdrachten vervullen',
+    step2Text: 'Vervul je een opdracht met precies 3 kaarten? Pak dan de opdracht en veilig je de poten 🐾 erop. <strong>Let op:</strong> Hoe meer poten op de kaart, hoe moeilijker de opdracht.',
+    step3Title: 'Opruimen',
+    step3Text: 'De open uitleg wordt altijd aangevuld tot 3. Als een actie driemaal gebruikt is, verdwijnt de kaart en verschijnt een nieuwe actie.',
+    spielendeLabel: '⏳ Spelseinde',
+    spielendeText: 'Zodra <strong>6 actiekaarten</strong> verbruikt zijn, eindigt het spel. Wie de meeste poten heeft verzameld, wint!',
+    seite2of2: 'Pagina 2 van 2',
+    zurueck: '← Terug',
+    weiter: 'Verder →',
+    losGehts: 'Aan de slag! 🎉',
+    spieler: ['Speler 1', 'Speler 2', 'Speler 3', 'Speler 4'],
+    stapel: 'Stapel',
+    abwurf: 'Afleg',
+    auslage: 'Uitleg',
+    aktionen: 'Acties',
+    spielende: 'Spelseinde',
+    punkte: 'Punten',
+    hintAktion: ['😼 %s, welke actie?', '⚡ %s, jouw beurt!', '🐱 %s: Lang drukken = Info!', '🎯 %s, wat is jouw plan?', '✨ %s, kies een actie!'],
+    hintDraw: ['🃏 %s, trek een kaart!', '🐾 %s, wat komt er?', '✨ Jouw geluk wacht, %s!', '🎴 %s, kom op!', '😺 De kat zegt: %s, trek!'],
+    hintSwitch: [['🟡 Speler 1 is aan de beurt! 😎', '🔵 Speler 2 is aan de beurt! 😎'], ['🐾 Los, Speler 1!', '🐾 Los, Speler 2!'], ['🟡 Jij bent aan de beurt!', '🔵 Jij bent aan de beurt!'], ['😸 Speler 1 gaat verder!', '😸 Speler 2 gaat verder!']],
+    catDeal: {emoji:'😸', msgs:['Ooh, een kaart!','Kijk eens!','Wat komt er?']},
+    catAuftrag: {emoji:'🎉', msgs:['Joepie! Opdracht!','Yes! 🐾','Wat een geluk!','Gewonnen!']},
+    catDiscard: {emoji:'😿', msgs:['Oh nee...','Wat jammer!','Dat doet pijn.']},
+    catSwitch: {emoji:'😼', msgs:['Volgende!','Jij bent aan de beurt!','Laat zien wat je kan!']},
+    catGameover: {emoji:'🏆', msgs:['Wat een spel!','Chapeau!','Fantastisch!']},
+    catIdle: {emoji:'😺', msgs:['...',':3','*snoer*','*gaap*']},
+    unentschieden: 'Gelijkspel!',
+    gewinnt: 'wint! 🏆',
+    gleichPunkte: 'Beiden hebben evenveel punten!',
+    tapferGekämpft: '%s heeft moedig gevochten.',
+    nochmalSpielen: '🔄 Nog een keer spelen',
+    waehlen: 'Kiezen',
+    weiter2: 'Verder!',
+    verstanden: 'Begrepen — Tik om uit te voeren',
+    zugBeenden: 'Beurt beëindigen?',
+    zugBeendenBtn: 'Beurt beëindigen →',
+    waehlKartenAbwerfen: 'Kies kaarten om te gooien',
+    auftragErfuellt: 'Opdracht vervuld!',
+    erfuelltMitDiesenKarten: 'Vervuld met deze kaarten',
+    bedingung: 'Voorwaarde',
+    wasPassiert: 'Wat er gebeurt',
+    gezogeneKarten: 'Getrokken kaarten',
+    farbeWaehlen: 'Kleur kiezen',
+    rot: 'ROOD', gelb: 'GEEL', blau: 'BLAUW',
+    credits: 'Een spelconcept<br>van Maren<br>en Johannes',
+    hinweise: 'Aanwijzingen',
+  },
+  en: {
+    splashBtn: '▶ Play',
+    anlTitle: 'Welcome to<br><span style="color:#4ec9c3;">TrioMio</span>!',
+    anlSub: 'Choose an action, collect cards,<br>grab the paws.',
+    badge1: '2–4 players',
+    badge2: 'approx. 20 min',
+    badge3: 'ages 8+',
+    zielTitle: '🎯 The goal',
+    zielText: 'Collect the right cards to fulfil the assignments on the table. Assignments earn you the coveted <strong>paws 🐾</strong>. Whoever has the most paws at the end wins TrioMio.',
+    beispielLabel: 'Example assignment',
+    beispielText: '"2× Yellow + 1× Red" — <span style="color:#555;font-weight:400;">Whoever has two yellow and one red card in their hand fulfils this assignment!</span>',
+    seite1of2: 'Page 1 of 2 · Next →',
+    anl2Title: 'How a turn works 🃏',
+    step1Title: 'Choose an action',
+    step1Text: 'Choose 1 of the three actions to collect cards. The action card describes what happens — draw cards from the pile, take from the display or swap … the actions are varied. Choose wisely!',
+    step2Title: 'Fulfil assignments',
+    step2Text: 'Fulfil an assignment with exactly 3 cards? Then grab the assignment and secure the paws 🐾 on it. <strong>Note:</strong> The more paws on the card, the harder the assignment.',
+    step3Title: 'Clean up',
+    step3Text: 'The open display is always refilled to 3. If an action has been used three times, the card is removed and a new action appears.',
+    spielendeLabel: '⏳ End of game',
+    spielendeText: 'Once <strong>6 action cards</strong> have been used, the game ends. Whoever has collected the most paws wins!',
+    seite2of2: 'Page 2 of 2',
+    zurueck: '← Back',
+    weiter: 'Next →',
+    losGehts: 'Let\'s go! 🎉',
+    spieler: ['Player 1', 'Player 2', 'Player 3', 'Player 4'],
+    stapel: 'Draw pile',
+    abwurf: 'Discard',
+    auslage: 'Display',
+    aktionen: 'Actions',
+    spielende: 'End of game',
+    punkte: 'Points',
+    hintAktion: ['😼 %s, which action?', '⚡ %s, your turn!', '🐱 %s: Long press = Info!', '🎯 %s, what\'s your plan?', '✨ %s, choose an action!'],
+    hintDraw: ['🃏 %s, draw a card!', '🐾 %s, what will it be?', '✨ Your luck awaits, %s!', '🎴 %s, go for it!', '😺 The cat says: %s, draw!'],
+    hintSwitch: [['🟡 Player 1\'s turn! 😎', '🔵 Player 2\'s turn! 😎'], ['🐾 Go, Player 1!', '🐾 Go, Player 2!'], ['🟡 Your turn!', '🔵 Your turn!'], ['😸 Player 1 continues!', '😸 Player 2 continues!']],
+    catDeal: {emoji:'😸', msgs:['Ooh, a card!','Look!','What\'s coming?']},
+    catAuftrag: {emoji:'🎉', msgs:['Yay! Assignment!','Yes! 🐾','What luck!','Won!']},
+    catDiscard: {emoji:'😿', msgs:['Oh no...','Bad luck!','That hurts.']},
+    catSwitch: {emoji:'😼', msgs:['Next up!','Your turn!','Show what you\'ve got!']},
+    catGameover: {emoji:'🏆', msgs:['What a game!','Chapeau!','Fantastic!']},
+    catIdle: {emoji:'😺', msgs:['...',':3','*purr*','*yawn*']},
+    unentschieden: 'Draw!',
+    gewinnt: 'wins! 🏆',
+    gleichPunkte: 'Both have the same number of points!',
+    tapferGekämpft: '%s fought bravely.',
+    nochmalSpielen: '🔄 Play again',
+    waehlen: 'Choose',
+    weiter2: 'Continue!',
+    verstanden: 'Got it — tap to execute',
+    zugBeenden: 'End turn?',
+    zugBeendenBtn: 'End turn →',
+    waehlKartenAbwerfen: 'Choose cards to discard',
+    auftragErfuellt: 'Assignment fulfilled!',
+    erfuelltMitDiesenKarten: 'Fulfilled with these cards',
+    bedingung: 'Condition',
+    wasPassiert: 'What happens',
+    gezogeneKarten: 'Drawn cards',
+    farbeWaehlen: 'Choose colour',
+    rot: 'RED', gelb: 'YELLOW', blau: 'BLUE',
+    credits: 'A game concept<br>by Maren<br>and Johannes',
+    hinweise: 'Notes',
+  }
+};
+
+let _lang = 'de';
+function t(key) { return (LANG[_lang] && LANG[_lang][key] !== undefined) ? LANG[_lang][key] : (LANG.de[key] || key); }
+
+function setLang(lang) {
+  _lang = lang;
+  // Splash button
+  const splashBtn = document.getElementById('splash-play-btn');
+  if(splashBtn) splashBtn.textContent = t('splashBtn');
+  // Anleitung rebuild
+  rebuildAnleitung();
+  // Zone titles
+  const ztEls = document.querySelectorAll('.zone-title-text');
+  // Manually update known zone titles by ID workaround:
+  _updateZoneTitles();
+  // Tabs
+  _updateTabs();
+  // Static popup texts
+  _updateStaticTexts();
+  // Lang buttons highlight
+  ['de','nl','en'].forEach(l => {
+    const btn = document.getElementById('lang-btn-'+l);
+    if(btn) {
+      btn.style.background = l===lang ? '#4ec9c3' : 'white';
+      btn.style.color = l===lang ? '#111' : '#555';
+    }
+  });
+}
+
+function _updateZoneTitles() {
+  const stapelEl = document.getElementById('stapel-title');
+  if(stapelEl) stapelEl.textContent = t('stapel');
+  const abwurfEl = document.getElementById('abwurf-title');
+  if(abwurfEl) abwurfEl.textContent = t('abwurf');
+  const auslageEl = document.getElementById('auslage-title');
+  if(auslageEl) auslageEl.textContent = t('auslage');
+  const aktEl = document.getElementById('aktionen-title');
+  if(aktEl) aktEl.textContent = t('aktionen');
+  const spielendeEl = document.getElementById('spielende-label');
+  if(spielendeEl) spielendeEl.textContent = t('spielende');
+  // Credits
+  const credEl = document.querySelector('.header-credits');
+  if(credEl) credEl.innerHTML = t('credits');
+}
+
+function _updateTabs() {
+  // Player tabs (only update if number of players set)
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('tab-p'+i);
+    if(el){
+      const dot=el.querySelector('.tab-dot');
+      const sc=el.querySelector('.tab-score');
+      el.innerHTML='';
+      if(dot){const d=document.createElement('div');d.className='tab-dot';el.appendChild(d);}
+      el.appendChild(document.createTextNode(t('spieler')[i-1]));
+      if(sc){el.appendChild(sc);}
+    }
+  }
+}
+
+function _updateStaticTexts() {
+  // Popup confirm button
+  const selBtn = document.getElementById('popup-select-btn');
+  if(selBtn) selBtn.textContent = t('waehlen');
+  // Color buttons
+  const rb=document.querySelectorAll('.red-btn'); rb.forEach(b=>b.textContent=t('rot'));
+  const yb=document.querySelectorAll('.yellow-btn'); yb.forEach(b=>b.textContent=t('gelb'));
+  const bb=document.querySelectorAll('.blue-btn'); bb.forEach(b=>b.textContent=t('blau'));
+  // Drawn cards popup title
+  const drt=document.querySelector('#popup-drawn .popup-title');
+  if(drt) drt.textContent=t('gezogeneKarten');
+  const drl=document.querySelector('.popup-color-label');
+  if(drl) drl.textContent=t('farbeWaehlen');
+  // End turn popup
+  const etTitle=document.getElementById('endturn-title');
+  if(etTitle) etTitle.textContent=t('zugBeenden');
+  const etBtn=document.getElementById('endturn-btn');
+  if(etBtn) etBtn.textContent=t('zugBeendenBtn');
+  // Auftrag popup title
+  const apTitle=document.querySelector('#popup-auftrag .popup-title');
+  if(apTitle) apTitle.textContent=t('auftragErfuellt');
+  const apErfLabel=document.querySelector('#popup-auftrag [style*="Erfüllt"]') || document.querySelector('#popup-auftrag .popup-divider + div');
+  // Aktion tooltip button
+  const aktBtn=document.querySelector('#popup-aktion-tooltip .popup-confirm-btn');
+  if(aktBtn) aktBtn.textContent=t('verstanden');
+  // Gameover restart
+  const goBtn=document.querySelector('#popup-gameover button');
+  if(goBtn) goBtn.textContent=t('nochmalSpielen');
+  // Hint bar
+  hintAction();
+}
+
+function rebuildAnleitung() {
+  const L = LANG[_lang];
+  // Page 1
+  const p1 = document.getElementById('anl-page-1');
+  if(p1) {
+    // Update title
+    const titleEl = p1.querySelector('[data-anl="title"]');
+    if(titleEl) titleEl.innerHTML = L.anlTitle;
+    const subEl = p1.querySelector('[data-anl="sub"]');
+    if(subEl) subEl.innerHTML = L.anlSub;
+    // Badges
+    const badges = p1.querySelectorAll('[data-anl-badge]');
+    const badgeKeys = ['badge1','badge2','badge3'];
+    badges.forEach((b,i)=>{ const sp=b.querySelector('span[data-anl-badge-text]'); if(sp) sp.textContent=L[badgeKeys[i]]; else { const txt=b.lastChild; if(txt && txt.nodeType===3) txt.textContent=' '+L[badgeKeys[i]]; } });
+    // Ziel
+    const zTitle = p1.querySelector('[data-anl="zielTitle"]');
+    if(zTitle) zTitle.textContent = L.zielTitle;
+    const zText = p1.querySelector('[data-anl="zielText"]');
+    if(zText) zText.innerHTML = L.zielText;
+    // Beispiel
+    const bLabel = p1.querySelector('[data-anl="beispielLabel"]');
+    if(bLabel) bLabel.textContent = L.beispielLabel;
+    const bText = p1.querySelector('[data-anl="beispielText"]');
+    if(bText) bText.innerHTML = L.beispielText;
+    // footer
+    const footer = p1.querySelector('[data-anl="seite1of2"]');
+    if(footer) footer.textContent = L.seite1of2;
+  }
+  // Page 2
+  const p2 = document.getElementById('anl-page-2');
+  if(p2) {
+    const t2 = p2.querySelector('[data-anl="anl2Title"]');
+    if(t2) t2.innerHTML = L.anl2Title;
+    const steps = ['step1','step2','step3'];
+    steps.forEach(s=>{
+      const title=p2.querySelector('[data-anl="'+s+'Title"]'); if(title) title.textContent=L[s+'Title'];
+      const text=p2.querySelector('[data-anl="'+s+'Text"]'); if(text) text.innerHTML=L[s+'Text'];
+    });
+    const seLabel=p2.querySelector('[data-anl="spielendeLabel"]'); if(seLabel) seLabel.textContent=L.spielendeLabel;
+    const seText=p2.querySelector('[data-anl="spielendeText"]'); if(seText) seText.innerHTML=L.spielendeText;
+    const footer2=p2.querySelector('[data-anl="seite2of2"]'); if(footer2) footer2.textContent=L.seite2of2;
+  }
+  // Nav buttons
+  const prev = document.getElementById('anl-prev');
+  const fwd  = document.getElementById('anl-next');
+  if(prev) prev.textContent = L.zurueck;
+  if(fwd) {
+    if(_anlPage===2) { fwd.textContent=L.losGehts; fwd.style.background='#4ec9c3'; fwd.onclick=closeAnleitung; }
+    else { fwd.textContent=L.weiter; fwd.onclick=()=>anlNav(1); }
+  }
+}
+
+updateTurnUI('p1'); hintAction(); setLang('de');
 
 </script>
 </body>
